@@ -1,0 +1,6 @@
+{
+  "name": "Digital Build Sheet",
+  "description": "Premium vehicle intelligence platform providing instant vehicle history reports, original factory Monroney window stickers, and market valuations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "q": "Do purchased vehicle report credits expire?",
+    "a": "No! All credits purchased on {SITE_NAME} never expire. You can buy a 2-pack or 5-pack today and use them whenever you find a car you want to inspect."
+  },
+  {
+    "q": "What is the difference between a Vehicle History Report and a Window Sticker?",
+    "a": "A Vehicle History Report provides title brands, ownership timeline, collision history, and odometer readings. A Window Sticker reproduces the original factory Monroney label showing every standard option, package code, MSRP invoice, and EPA fuel ratings as the vehicle left the factory."
+  },
+  {
+    "q": "How does {SITE_NAME} obtain original factory specs?",
+    "a": "We decode manufacturer build databases, NMVTIS federal registries, state DMV records, and official OEM build sheets to reconstitute complete factory equipment and pricing."
+  },
+  {
+    "q": "Can I print or save my reports as a PDF?",
+    "a": "Yes, every generated report and Monroney window sticker includes a direct one-click PDF export and full color print layout formatted specifically for standard letter size paper."
+  },
+  {
+    "q": "What if my VIN has no data?",
+    "a": "In the rare event that a VIN cannot be decoded by our database, our 24/7 customer support will either manually research the archives for your vehicle or issue an immediate replacement credit."
+  }
+]
