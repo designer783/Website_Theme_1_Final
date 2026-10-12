@@ -11,7 +11,8 @@ import {
   FileText,
   Tag,
   HelpCircle,
-  Lock
+  Lock,
+  Headphones
 } from 'lucide-react';
 import { SITE } from '../config/site';
 
@@ -83,7 +84,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   }}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Sample Vehicle Reports
+                  Sample Reports
                 </button>
               </li>
               <li>
@@ -129,9 +130,17 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   {SITE.email}
                 </a>
               </li>
-              <li className="flex items-center gap-2.5 text-xs text-slate-500">
-                <Clock className="w-4 h-4 text-slate-500 shrink-0" />
-                <span>Open 24/7</span>
+              <li className="flex items-center gap-2.5">
+                <Headphones className="w-4 h-4 text-blue-400 shrink-0" />
+                <button
+                  onClick={() => {
+                    onNavigate('contact');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Speak to the live chat agent
+                </button>
               </li>
             </ul>
           </div>

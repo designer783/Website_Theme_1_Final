@@ -14,6 +14,7 @@ import { TestimonialsSection } from './components/TestimonialsSection';
 import { InteractiveReportModal } from './components/InteractiveReportModal';
 import { InteractiveStickerModal } from './components/InteractiveStickerModal';
 import { InteractiveBuildSheetModal } from './components/InteractiveBuildSheetModal';
+import { RevisitBanner } from './components/RevisitBanner';
 
 // Pages
 import { SampleReportsPage } from './pages/SampleReportsPage';
@@ -33,6 +34,8 @@ export default function App() {
   const [activeBuildSheet, setActiveBuildSheet] = useState<BuildSheetDetails | null>(null);
   const [selectedPackage, setSelectedPackage] = useState<PricingPackage | null>(null);
   const [searchedVin, setSearchedVin] = useState<string>('');
+  const [revisitVin, setRevisitVin] = useState<string>('3FA6P0RU9HR306143');
+  const [isRevisitBannerVisible, setIsRevisitBannerVisible] = useState<boolean>(true);
 
   // Keep the URL and <title> in sync so each page has its own address (/pricing/, /contact/, ...)
   useEffect(() => {
@@ -310,12 +313,26 @@ export default function App() {
             onNavigate={handleNavigate}
             onOpenSampleReport={handleOpenReport}
             onOpenSticker={handleOpenSticker}
+            revisitVin={revisitVin}
+            onChangeRevisitVin={setRevisitVin}
+            isRevisitBannerVisible={isRevisitBannerVisible}
+            onToggleRevisitBanner={() => setIsRevisitBannerVisible(!isRevisitBannerVisible)}
           />
         )}
       </main>
 
       {/* Global Footer */}
       <Footer onNavigate={handleNavigate} />
+
+      {/* Interactive Revisit Banner with Variable VIN */}
+      <RevisitBanner
+        vin={searchedVin || revisitVin}
+        isOpen={isRevisitBannerVisible}
+        onClose={() => setIsRevisitBannerVisible(false)}
+        onAction={(vinToOpen) => {
+          handleOpenReport(vinToOpen);
+        }}
+      />
 
       {/* Interactive Vehicle Report Modal */}
       {activeReport && (
@@ -345,7 +362,7 @@ export default function App() {
       )}
 
       
-      {import.meta.env?.DEV === true || (typeof process !== 'undefined' && process.env.NODE_ENV === "development") ? <Agentation /> : null}
+      {(import.meta as any).env?.DEV === true || (typeof process !== 'undefined' && process.env.NODE_ENV === "development") ? <Agentation /> : null}
     </div>
   );
 }

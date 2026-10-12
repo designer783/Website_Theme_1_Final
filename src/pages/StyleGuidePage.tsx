@@ -17,23 +17,38 @@ import {
   Search,
   Wrench,
   Gauge,
-  Cpu
+  Cpu,
+  Clock,
+  RotateCcw,
+  Eye,
+  Type
 } from 'lucide-react';
 import { PageRoute } from '../types';
 import { SITE } from '../config/site';
+import { RevisitBanner } from '../components/RevisitBanner';
 
 interface StyleGuidePageProps {
   onNavigate: (page: PageRoute) => void;
   onOpenSampleReport?: (vin: string) => void;
   onOpenSticker?: (vin: string) => void;
+  revisitVin?: string;
+  onChangeRevisitVin?: (vin: string) => void;
+  isRevisitBannerVisible?: boolean;
+  onToggleRevisitBanner?: () => void;
 }
 
 export const StyleGuidePage: React.FC<StyleGuidePageProps> = ({
   onNavigate,
   onOpenSampleReport,
   onOpenSticker,
+  revisitVin = '3FA6P0RU9HR306143',
+  onChangeRevisitVin,
+  isRevisitBannerVisible = true,
+  onToggleRevisitBanner,
 }) => {
   const [copiedToken, setCopiedToken] = useState<string | null>(null);
+  const [localVinInput, setLocalVinInput] = useState<string>(revisitVin);
+  const [localPrice, setLocalPrice] = useState<string>('$20');
 
   const copyToClipboard = (text: string, tokenName: string) => {
     navigator.clipboard?.writeText(text);
@@ -142,31 +157,48 @@ export const StyleGuidePage: React.FC<StyleGuidePageProps> = ({
           </div>
         </section>
 
-        {/* SECTION 2: TYPOGRAPHIC SYSTEM */}
+        {/* SECTION 2: TYPOGRAPHIC SYSTEM (16px DESKTOP MINIMUM FLOOR) */}
         <section className="space-y-6">
           <div>
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-blue-600">02 / Typography</span>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1 font-heading">Typographic Hierarchy &amp; Heading System</h2>
-            <p className="text-sm text-slate-600 mt-1">
-              Plus Jakarta Sans for all bold display headings and section titles paired with Inter for high-density tabular records, and JetBrains Mono for VINs and OEM option codes.
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-xs bg-blue-50 border border-blue-200 text-blue-700 text-xs font-mono font-bold uppercase tracking-wider mb-2">
+              <Type className="w-3.5 h-3.5" />
+              <span>Desktop Minimum 16px Typography Architecture</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1 font-heading">02 / Typographic Hierarchy &amp; Scaling Standard</h2>
+            <p className="text-sm sm:text-base text-slate-600 mt-1 max-w-3xl">
+              Strict rule: <strong>Least point size on Desktop is 16px (1rem)</strong>. Captions, table meta, form inputs, and badges elevate from 12px/14px to 16px floor, with all higher typographic tiers scaled upward proportionally.
             </p>
           </div>
 
           <div className="bg-white rounded-sm border border-slate-200 p-6 sm:p-8 space-y-8 shadow-2xs">
+            {/* Desktop 16px Standard Banner */}
+            <div className="bg-slate-900 text-white p-4 rounded-xs border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <span className="w-8 h-8 rounded-xs bg-blue-600 text-white flex items-center justify-center font-bold font-mono text-sm">16</span>
+                <div>
+                  <h4 className="font-bold text-sm text-white font-heading">Desktop Point Size Floor: 16px (1rem)</h4>
+                  <p className="text-xs text-slate-300">Smallest point size across all desktop viewports (min-width: 1024px). No 14px or 12px rendered.</p>
+                </div>
+              </div>
+              <span className="text-xs font-mono font-bold px-3 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 rounded-xs uppercase whitespace-nowrap self-start md:self-auto">
+                ✓ 16px Floor Enforced
+              </span>
+            </div>
+
             <div className="border-b border-slate-200 pb-6">
               <div className="flex justify-between items-baseline mb-2">
-                <span className="text-xs font-mono text-slate-400 font-bold uppercase">Display 1 (Hero Title) • 48px–60px • Plus Jakarta Sans 900 Black</span>
-                <span className="text-xs font-mono text-blue-600 font-bold">var(--font-heading)</span>
+                <span className="text-xs font-mono text-slate-400 font-bold uppercase">Display 1 (Hero Title) • 56px–68px Desktop • Plus Jakarta Sans 900 Black</span>
+                <span className="text-xs font-mono text-blue-600 font-bold">text-4xl lg:text-6xl</span>
               </div>
-              <p className="text-3xl sm:text-5xl font-black text-slate-950 font-heading tracking-tight leading-tight">
+              <p className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-950 font-heading tracking-tight leading-tight">
                 Authentic Monroney Window Stickers &amp; History
               </p>
             </div>
 
             <div className="border-b border-slate-200 pb-6">
               <div className="flex justify-between items-baseline mb-2">
-                <span className="text-xs font-mono text-slate-400 font-bold uppercase">Heading 2 (Section Title) • 30px–36px • Plus Jakarta Sans 800 ExtraBold</span>
-                <span className="text-xs font-mono text-blue-600 font-bold">var(--font-heading)</span>
+                <span className="text-xs font-mono text-slate-400 font-bold uppercase">Heading 2 (Section Title) • 32px–36px Desktop • Plus Jakarta Sans 800 ExtraBold</span>
+                <span className="text-xs font-mono text-blue-600 font-bold">text-2xl lg:text-3xl</span>
               </div>
               <p className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading tracking-tight">
                 Everything Included In Your Certified Report
@@ -175,8 +207,8 @@ export const StyleGuidePage: React.FC<StyleGuidePageProps> = ({
 
             <div className="border-b border-slate-200 pb-6">
               <div className="flex justify-between items-baseline mb-2">
-                <span className="text-xs font-mono text-slate-400 font-bold uppercase">Heading 3 (Card Subheader) • 20px–24px • Plus Jakarta Sans 700 Bold</span>
-                <span className="text-xs font-mono text-blue-600 font-bold">var(--font-heading)</span>
+                <span className="text-xs font-mono text-slate-400 font-bold uppercase">Heading 3 (Card Subheader) • 24px–28px Desktop • Plus Jakarta Sans 700 Bold</span>
+                <span className="text-xs font-mono text-blue-600 font-bold">text-xl lg:text-2xl</span>
               </div>
               <p className="text-xl sm:text-2xl font-bold text-slate-900 font-heading tracking-tight">
                 Factory Options, Packages &amp; Market Valuations
@@ -185,22 +217,35 @@ export const StyleGuidePage: React.FC<StyleGuidePageProps> = ({
 
             <div className="border-b border-slate-200 pb-6">
               <div className="flex justify-between items-baseline mb-2">
-                <span className="text-xs font-mono text-slate-400 font-bold uppercase">Technical Monospace (VIN &amp; Spec) • 16px • JetBrains Mono</span>
-                <span className="text-xs font-mono text-blue-600 font-bold">var(--font-mono)</span>
+                <span className="text-xs font-mono text-slate-400 font-bold uppercase">Body Copy • 18px Desktop • Regular 400 • Line Height 1.6</span>
+                <span className="text-xs font-mono text-blue-600 font-bold">text-base lg:text-lg</span>
               </div>
-              <p className="font-mono text-lg font-bold text-slate-900 tracking-wider">
-                VIN: 2T1BURHE0FC320645 • MSRP: $18,565 • ENGINE: 1.8L I4 DOHC
+              <p className="text-base lg:text-lg text-slate-600 leading-relaxed max-w-3xl font-sans">
+                Every vehicle identification number contains an encrypted record of factory equipment, safety recalls, and commercial ownership transactions. {SITE.name} decodes these archives directly from federal NMVTIS registries.
               </p>
             </div>
 
             <div>
               <div className="flex justify-between items-baseline mb-2">
-                <span className="text-xs font-mono text-slate-400 font-bold uppercase">Body Copy • 16px • Regular 400 • Line Height 1.6</span>
-                <span className="text-xs font-mono text-blue-600 font-bold">Inter (var(--font-sans))</span>
+                <span className="text-xs font-mono text-slate-400 font-bold uppercase">Minimum Floor Tier • 16px Desktop Floor (previously 12px/14px) • JetBrains Mono / Inter</span>
+                <span className="text-xs font-mono text-emerald-600 font-bold">text-xs / text-sm (Elevated to 16px)</span>
               </div>
-              <p className="text-base text-slate-600 leading-relaxed max-w-3xl font-sans">
-                Every vehicle identification number contains an encrypted record of factory equipment, safety recalls, and commercial ownership transactions. {SITE.name} decodes these archives directly from federal NMVTIS registries.
-              </p>
+              <div className="space-y-3">
+                <p className="font-mono text-base font-bold text-slate-900 tracking-wider">
+                  VIN: 3FA6P0RU9HR306143 • MSRP: $24,135 • ENGINE: 1.5L ECOBOOST I4 TURBO
+                </p>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  <span className="px-3 py-1 rounded-xs bg-slate-100 text-slate-800 text-sm font-semibold border border-slate-200">
+                    Badge Minimum: 16px
+                  </span>
+                  <span className="px-3 py-1 rounded-xs bg-blue-50 text-blue-700 text-sm font-semibold border border-blue-200">
+                    Input Label: 16px
+                  </span>
+                  <span className="px-3 py-1 rounded-xs bg-emerald-50 text-emerald-700 text-sm font-semibold border border-emerald-200">
+                    Table Record Meta: 16px
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -477,11 +522,223 @@ export const StyleGuidePage: React.FC<StyleGuidePageProps> = ({
                 </div>
               </div>
             </div>
-
           </div>
         </section>
 
-        {/* SECTION 4: PRODUCTION PAGE QUICK-NAV */}
+        {/* SECTION 4: REVISIT BANNER SPECIFICATION & LIVE PLAYGROUND */}
+        <section className="space-y-6">
+          <div>
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-xs bg-amber-50 border border-amber-200 text-amber-800 text-xs font-mono font-bold uppercase tracking-wider mb-2">
+              <Clock className="w-3.5 h-3.5 text-amber-600" />
+              <span>Revisit Banner Component Architecture</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1 font-heading">
+              04 / Revisit Banner (Variable VIN &amp; Visual Fidelity)
+            </h2>
+            <p className="text-sm sm:text-base text-slate-600 mt-1 max-w-3xl">
+              Engineered to match the specified screenshot with pixel fidelity while fully complementing our existing automotive design system. The vehicle title and VIN are dynamically driven by variable props.
+            </p>
+          </div>
+
+          <div className="bg-white rounded-sm border border-slate-200 p-6 sm:p-8 space-y-8 shadow-2xs">
+            {/* Control & Testing Bar */}
+            <div className="p-5 bg-slate-50 border border-slate-200 rounded-sm space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
+                <div>
+                  <h4 className="font-bold text-slate-900 text-sm font-heading">Interactive Variable VIN Test Bench</h4>
+                  <p className="text-xs text-slate-500">Change the VIN variable below to see the banner adapt its vehicle title, VIN formatting, and action response in real-time.</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    id="btn-toggle-floating-banner"
+                    type="button"
+                    onClick={() => onToggleRevisitBanner?.()}
+                    className={`px-3 py-1.5 rounded-xs text-xs font-bold uppercase tracking-wider transition-colors border cursor-pointer flex items-center gap-1.5 ${
+                      isRevisitBannerVisible
+                        ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                        : 'bg-slate-100 text-slate-600 border-slate-200'
+                    }`}
+                  >
+                    <Eye className="w-3.5 h-3.5" />
+                    <span>{isRevisitBannerVisible ? 'Floating Banner: Active' : 'Floating Banner: Hidden'}</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* VIN & Price Controls */}
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+                <div className="sm:col-span-6 space-y-1">
+                  <label htmlFor="test-vin-input" className="text-xs font-mono font-bold text-slate-600 uppercase">
+                    Test VIN Variable
+                  </label>
+                  <input
+                    id="test-vin-input"
+                    type="text"
+                    value={localVinInput}
+                    onChange={(e) => {
+                      const v = e.target.value.toUpperCase();
+                      setLocalVinInput(v);
+                      onChangeRevisitVin?.(v);
+                    }}
+                    placeholder="Enter 17-digit VIN"
+                    className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xs font-mono text-sm uppercase text-slate-900 font-bold focus:outline-none focus:border-blue-600"
+                  />
+                </div>
+
+                <div className="sm:col-span-3 space-y-1">
+                  <label htmlFor="test-price-input" className="text-xs font-mono font-bold text-slate-600 uppercase">
+                    CTA Price
+                  </label>
+                  <input
+                    id="test-price-input"
+                    type="text"
+                    value={localPrice}
+                    onChange={(e) => setLocalPrice(e.target.value)}
+                    placeholder="$20"
+                    className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xs text-sm text-slate-900 font-bold focus:outline-none focus:border-blue-600"
+                  />
+                </div>
+
+                <div className="sm:col-span-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setLocalVinInput('3FA6P0RU9HR306143');
+                      onChangeRevisitVin?.('3FA6P0RU9HR306143');
+                      setLocalPrice('$20');
+                    }}
+                    className="w-full px-3 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xs text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5 shadow-2xs"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    <span>Reset To Default</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Quick VIN Presets */}
+              <div className="pt-2 flex items-center gap-2 flex-wrap">
+                <span className="text-xs font-mono text-slate-500 font-bold">Quick Presets:</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setLocalVinInput('3FA6P0RU9HR306143');
+                    onChangeRevisitVin?.('3FA6P0RU9HR306143');
+                  }}
+                  className={`px-2.5 py-1 text-xs font-mono rounded-xs border font-bold cursor-pointer transition-colors ${
+                    localVinInput === '3FA6P0RU9HR306143'
+                      ? 'bg-blue-600 text-white border-blue-600'
+                      : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
+                  }`}
+                >
+                  3FA6P0RU9HR306143 (2017 Ford Fusion)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setLocalVinInput('2T1BURHE0FC320645');
+                    onChangeRevisitVin?.('2T1BURHE0FC320645');
+                  }}
+                  className={`px-2.5 py-1 text-xs font-mono rounded-xs border font-bold cursor-pointer transition-colors ${
+                    localVinInput === '2T1BURHE0FC320645'
+                      ? 'bg-blue-600 text-white border-blue-600'
+                      : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
+                  }`}
+                >
+                  2T1BURHE0FC320645 (2015 Toyota Corolla)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setLocalVinInput('1HGFA15547L116880');
+                    onChangeRevisitVin?.('1HGFA15547L116880');
+                  }}
+                  className={`px-2.5 py-1 text-xs font-mono rounded-xs border font-bold cursor-pointer transition-colors ${
+                    localVinInput === '1HGFA15547L116880'
+                      ? 'bg-blue-600 text-white border-blue-600'
+                      : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
+                  }`}
+                >
+                  1HGFA15547L116880 (2007 Honda Civic)
+                </button>
+              </div>
+            </div>
+
+            {/* Embedded Live Preview Showcase */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              {/* Left Column: Live Rendered Card matching screenshot */}
+              <div className="lg:col-span-6 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-mono text-slate-400 font-bold uppercase">
+                    Live Component Render (Embedded Preview)
+                  </span>
+                  <span className="text-xs font-mono text-emerald-600 font-bold">
+                    Variant: Embedded
+                  </span>
+                </div>
+                <div className="p-6 bg-slate-100/70 border border-slate-200 rounded-sm flex items-center justify-center">
+                  <div className="w-full max-w-[420px]">
+                    <RevisitBanner
+                      variant="embedded"
+                      vin={localVinInput}
+                      price={localPrice}
+                      onAction={(vinToOpen) => onOpenSampleReport?.(vinToOpen)}
+                      className="shadow-xl"
+                    />
+                  </div>
+                </div>
+                <p className="text-xs text-slate-500">
+                  Clicking "Grab it for only {localPrice}" will open the authentic full report modal for VIN <code className="font-mono text-blue-600 font-bold">{localVinInput}</code>.
+                </p>
+              </div>
+
+              {/* Right Column: Architectural Design Specs */}
+              <div className="lg:col-span-6 space-y-4">
+                <span className="text-xs font-mono text-slate-400 font-bold uppercase">
+                  Design Specifications &amp; Tokens
+                </span>
+                <div className="bg-slate-50 border border-slate-200 rounded-sm p-5 space-y-3.5 text-xs">
+                  <div className="flex justify-between border-b border-slate-200 pb-2">
+                    <span className="font-bold text-slate-700">Pill Badge:</span>
+                    <span className="font-mono text-slate-600">bg-[#FEF6EE] • text-[#B54708] • Clock Icon</span>
+                  </div>
+                  <div className="flex justify-between border-b border-slate-200 pb-2">
+                    <span className="font-bold text-slate-700">Title Typography:</span>
+                    <span className="font-mono text-slate-600">Plus Jakarta Sans 800 • 18px–20px • Leading Snug</span>
+                  </div>
+                  <div className="flex justify-between border-b border-slate-200 pb-2">
+                    <span className="font-bold text-slate-700">Variable VIN:</span>
+                    <span className="font-mono text-slate-600">JetBrains Mono • text-slate-400/500 • Uppercase</span>
+                  </div>
+                  <div className="flex justify-between border-b border-slate-200 pb-2">
+                    <span className="font-bold text-slate-700">Action CTA:</span>
+                    <span className="font-mono text-slate-600">bg-[#131E35] (Industrial Slate) • White Bold • rounded-2xl</span>
+                  </div>
+                  <div className="flex justify-between border-b border-slate-200 pb-2">
+                    <span className="font-bold text-slate-700">Card Geometry:</span>
+                    <span className="font-mono text-slate-600">rounded-3xl (24px) • border-slate-200/80 • shadow-2xl</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-bold text-slate-700">Desktop Point Size:</span>
+                    <span className="font-mono text-emerald-600 font-bold">16px Minimum Point Size Standard Enforced</span>
+                  </div>
+                </div>
+
+                <div className="pt-2">
+                  <button
+                    type="button"
+                    onClick={() => onOpenSampleReport?.(localVinInput)}
+                    className="px-4 py-2.5 rounded-xs bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-xs flex items-center gap-2 cursor-pointer"
+                  >
+                    <FileText className="w-3.5 h-3.5" />
+                    <span>Test Full Vehicle Report Modal for {localVinInput}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* SECTION 5: PRODUCTION PAGE QUICK-NAV */}
         <div className="bg-white rounded-sm p-6 border border-slate-200 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <h4 className="text-sm font-bold text-slate-900 font-heading">Explore Production Pages</h4>

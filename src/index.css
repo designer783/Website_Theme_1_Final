@@ -61,3 +61,55 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+
+/* ==========================================================================
+   DESKTOP TYPOGRAPHY SYSTEM (Least point size = 16px, proportional scale)
+   ========================================================================== */
+@media (min-width: 1024px) {
+  :root {
+    /* Least point size is 16px: text-xs and text-sm elevate to 16px */
+    --text-xs: 1rem;                  /* 16px (previously 12px) */
+    --text-xs--line-height: 1.5;
+    --text-sm: 1rem;                  /* 16px (previously 14px) */
+    --text-sm--line-height: 1.5;
+
+    /* Scaled body copy */
+    --text-base: 1.125rem;            /* 18px (previously 16px) */
+    --text-base--line-height: 1.6;
+
+    /* Scaled subheaders & display tiers */
+    --text-lg: 1.25rem;               /* 20px (previously 18px) */
+    --text-lg--line-height: 1.55;
+    --text-xl: 1.45rem;               /* 23.2px (previously 20px) */
+    --text-xl--line-height: 1.4;
+    --text-2xl: 1.75rem;              /* 28px (previously 24px) */
+    --text-2xl--line-height: 1.35;
+    --text-3xl: 2.25rem;              /* 36px (previously 30px) */
+    --text-3xl--line-height: 1.25;
+    --text-4xl: 2.75rem;              /* 44px (previously 36px) */
+    --text-4xl--line-height: 1.2;
+    --text-5xl: 3.5rem;               /* 56px (previously 48px) */
+    --text-5xl--line-height: 1.15;
+    --text-6xl: 4.25rem;              /* 68px (previously 60px) */
+    --text-6xl--line-height: 1.1;
+  }
+
+  /* Universal Desktop Floor: Ensure no arbitrary font size drops below 16px */
+  .text-\[9px\],
+  .text-\[10px\],
+  .text-\[11px\],
+  .text-\[12px\],
+  .text-\[13px\],
+  .text-\[14px\],
+  .text-\[15px\],
+  [class*="text-\[9px\]"],
+  [class*="text-\[10px\]"],
+  [class*="text-\[11px\]"],
+  [class*="text-\[12px\]"],
+  [class*="text-\[13px\]"],
+  [class*="text-\[14px\]"],
+  [class*="text-\[15px\]"] {
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+  }
+}

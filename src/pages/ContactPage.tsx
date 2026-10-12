@@ -7,7 +7,8 @@ import {
   CheckCircle2, 
   Send, 
   ShieldCheck, 
-  MessageSquare
+  MessageSquare,
+  Headphones
 } from 'lucide-react';
 import { ContactFormData } from '../types';
 import { SITE } from '../config/site';
@@ -104,6 +105,46 @@ export const ContactPage: React.FC = () => {
                     {SITE.email}
                   </a>
                   <p className="text-xs text-slate-500 mt-0.5">Responses typically within 2-4 hours</p>
+                </div>
+              </div>
+
+              {/* Speak to Live Chat Agent */}
+              <div className="p-5 bg-white rounded-sm border border-slate-200 shadow-2xs flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xs bg-slate-100 border border-slate-200 text-slate-950 flex items-center justify-center shrink-0">
+                  <Headphones className="w-5 h-5 text-blue-600" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-500 block">
+                      Live Chat Assistance
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-xs bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      Live Now
+                    </span>
+                  </div>
+                  <h3 className="text-base font-bold text-slate-950 mt-0.5">
+                    Speak to Live Chat Agent
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
+                    Connect directly with an automotive specialist right now for instant assistance with build sheet lookups, Monroney stickers, or order inquiries.
+                  </p>
+                  <div className="mt-3">
+                    <button
+                      type="button"
+                      id="btn-speak-live-chat-agent"
+                      onClick={() => {
+                        const el = document.getElementById('contact-name-field');
+                        if (el) {
+                          el.focus();
+                        }
+                      }}
+                      className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xs bg-slate-900 hover:bg-blue-600 text-white text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer shadow-2xs"
+                    >
+                      <MessageSquare className="w-3.5 h-3.5 text-blue-300" />
+                      <span>Start Live Chat</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
